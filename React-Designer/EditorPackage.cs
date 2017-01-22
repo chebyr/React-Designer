@@ -62,7 +62,7 @@ namespace ReactDesigner
             editorFactory = new EditorFactory();
             RegisterEditorFactory(editorFactory);
 
-            var settings = new CefSharp.CefSettings { LogSeverity = LogSeverity.Verbose };
+            var settings = new CefSharp.CefSettings { LogSeverity = CefSharp.LogSeverity.Verbose };
             if (!CefSharp.Cef.Initialize(settings))
             {
                 throw new Exception("Unable to Initialize Cef");
