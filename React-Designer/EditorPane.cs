@@ -87,7 +87,7 @@ namespace ReactDesigner
             gettingCheckoutStatus = false;
 
             // This call is required by the Windows.Forms Form Designer.
-            editorControl = new EditorControl("https://kangax.github.io/compat-table/es6/");
+            editorControl = new EditorControl(null);
             editorControl.TabIndex = 0;
             editorControl.Text = string.Empty;
             editorControl.Name = "EditorPane"; 
@@ -458,22 +458,14 @@ namespace ReactDesigner
             int hr = VSConstants.S_OK;
             try
             {
-                bool isReload = false;
-
                 // If the new file name is null, then this operation is a reload
-                if (pszFilename == null)
-                {
-                    isReload = true;
-                }
+                var isReload = pszFilename == null;
 
                 // Show the wait cursor while loading the file
-                IVsUIShell vsUiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
-                if (vsUiShell != null)
-                {
-                    // Note: we don't want to throw or exit if this call fails, so
-                    // don't check the return code.
-                    vsUiShell.SetWaitCursor();
-                }
+                var shell = (IVsUIShell)GetService(typeof(SVsUIShell));
+                // Note: we don't want to throw or exit if this call fails, so
+                // don't check the return code.
+                shell?.SetWaitCursor();
 
                 // Set the new file name
                 if ( !isReload )
@@ -481,8 +473,12 @@ namespace ReactDesigner
                     // Unsubscribe from the notification of the changes in the previous file.
                     fileName = pszFilename;
                 }
+
+                // Wait for the browser to initialize
+                editorControl.WaitForBrowserToInitialize();
+
                 // Load the file
-                //editorControl.Load(pszFilename);
+                editorControl.Load(pszFilename);
 
                 isDirty = false;
 
@@ -493,6 +489,7 @@ namespace ReactDesigner
             {
                 loading = false;
             }
+
             return hr;
         }
 

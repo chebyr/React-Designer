@@ -61,6 +61,12 @@ namespace ReactDesigner
             base.Initialize();
             editorFactory = new EditorFactory();
             RegisterEditorFactory(editorFactory);
+
+            var settings = new CefSharp.CefSettings { LogSeverity = LogSeverity.Verbose };
+            if (!CefSharp.Cef.Initialize(settings))
+            {
+                throw new Exception("Unable to Initialize Cef");
+            }
         }
 
         #region IDisposable Pattern
