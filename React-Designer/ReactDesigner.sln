@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1DE222E-1380-4DFC-B6E3-814BBEF512DB}"
+	ProjectSection(SolutionItems) = preProject
+		Example.ReactDesigner.jpg = Example.ReactDesigner.jpg
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactDesigner", "ReactDesigner.csproj", "{A96C6F84-A591-4AA4-92AD-F1FA4955C835}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A96C6F84-A591-4AA4-92AD-F1FA4955C835}.Debug|x86.ActiveCfg = Debug|x86
+		{A96C6F84-A591-4AA4-92AD-F1FA4955C835}.Debug|x86.Build.0 = Debug|x86
+		{A96C6F84-A591-4AA4-92AD-F1FA4955C835}.Release|x86.ActiveCfg = Release|x86
+		{A96C6F84-A591-4AA4-92AD-F1FA4955C835}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
