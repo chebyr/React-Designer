@@ -26,10 +26,13 @@ namespace ReactDesigner
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#100", "#102", "10.0", IconResourceID = 400)]
     // We register our AddNewItem Templates the Miscellaneous Files Project:
-    [ProvideEditorExtension(typeof(EditorFactory), ".html", 32,
+    [ProvideEditorExtension(typeof(EditorFactory), ".js", 32,
               ProjectGuid = "{A2FE74E1-B743-11d0-AE1A-00A0C90FFFC3}",
               TemplateDir = "Templates",
               NameResourceID = 106)]
+    //[ProvideEditorExtension(typeof(EditorFactory), ".jsx", 32)]
+    //[ProvideEditorExtension(typeof(EditorFactory), ".js", 32)]
+    //[ProvideEditorExtension(typeof(EditorFactory), ".html", 32)]
     // We register that our editor supports LOGVIEWID_Designer logical view
     [ProvideEditorLogicalView(typeof(EditorFactory), "{7651a703-06e5-11d1-8ebd-00a0c90f26ea}")]
     [Guid(GuidStrings.GuidClientPackage)]
@@ -66,6 +69,14 @@ namespace ReactDesigner
             if (!CefSharp.Cef.Initialize(settings))
             {
                 throw new Exception("Unable to Initialize Cef");
+            }
+        }
+
+        public static string PackagePath {
+            get {
+                var uri = new Uri(System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase);
+                string path = System.IO.Path.GetDirectoryName(Uri.UnescapeDataString(uri.AbsolutePath));
+                return path + "\\";
             }
         }
 

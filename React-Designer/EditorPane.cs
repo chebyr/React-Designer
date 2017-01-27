@@ -8,6 +8,9 @@ namespace ReactDesigner
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.OLE.Interop;
     using Microsoft.VisualStudio.Shell;
+    using System.IO;
+    using StringExtensions;
+    using System.Linq;
 
     using Constants = Microsoft.VisualStudio.OLE.Interop.Constants;
     using VSConstants = Microsoft.VisualStudio.VSConstants;
@@ -47,7 +50,7 @@ namespace ReactDesigner
         private const char endLine = (char)10;
 
         #region Fields
-        
+
         // Full path to the file.
         private string fileName;
         /// Determines whether an object has changed since being saved to its current file.
@@ -87,7 +90,7 @@ namespace ReactDesigner
             gettingCheckoutStatus = false;
 
             // This call is required by the Windows.Forms Form Designer.
-            editorControl = new EditorControl(null);
+            editorControl = new EditorControl(null);//"about:blank"
             editorControl.TabIndex = 0;
             editorControl.Text = string.Empty;
             editorControl.Name = "EditorPane"; 
@@ -477,8 +480,55 @@ namespace ReactDesigner
                 // Wait for the browser to initialize
                 editorControl.WaitForBrowserToInitialize();
 
-                // Load the file
-                editorControl.Load(pszFilename);
+                var pathToTemplates = Path.Combine(EditorPackage.PackagePath, "Templates");
+                var pathToHtml = Path.Combine(pathToTemplates, "elementview.html");
+                //var pathToProject = HierarchyUtilities.GetProject()
+                //var pathToCss = "";
+
+                var html = File.ReadAllText(pathToHtml);
+                var css = "";//File.ReadAllText(pathToCss);
+
+                var content = File.ReadAllText(pszFilename);
+
+                //Get element name from next string:
+                //"class Photos extends React.Component"
+                var elementName = content.Substring(content.IndexOf("class ") + 6, content.IndexOf(" extends React.Component") -
+                    content.IndexOf("class ") + 6);
+                
+                //Remove all import, export and PropTypes lines from content
+                content = string.Join(Environment.NewLine, content.ToLines().Where(
+                    line => 
+                        !line.Trim(' ').StartsWith("import", StringComparison.OrdinalIgnoreCase) &&
+                        !line.Trim(' ').StartsWith("export default connect", StringComparison.OrdinalIgnoreCase) &&
+                        !line.Contains("PropTypes")));
+
+                content = content.Replace("export default ", "");
+
+                //Create input jsx file
+                var js = $@"try {{
+        {content}
+
+        ReactDOM.render(
+        <{elementName} />
+        , document.getElementById('root'));
+    }}
+    catch(e) {{
+        ReactDOM.render(
+            <h1>{{""Error "" + e.name + "": "" + e.message}}</h1>,
+            document.getElementById('error')
+        );
+    }}";
+
+                //Create output html from format file.
+                var text = string.Format(html, css, js, pathToTemplates.Replace('\\', '/'));
+
+                //Save html to temp file.
+                var path = Path.GetTempFileName() + ".html";
+                File.WriteAllText(path, text);
+
+                //Load temp html file.
+                editorControl.Load(path);
+                //editorControl.LoadHtml(text, "localhost");
 
                 isDirty = false;
 

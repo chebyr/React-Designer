@@ -123,6 +123,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="EditorFactory.cs" />
     <Compile Include="EditorPane.cs">
     </Compile>
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GuidList.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -352,7 +353,22 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="libGLESv2.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Templates\babel.min.js">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\elementview.html">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\react-dom.js">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\react.js">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Templates\test.html">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\test2.html">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="widevinecdmadapter.dll">
