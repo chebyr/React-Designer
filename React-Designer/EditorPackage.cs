@@ -5,6 +5,7 @@ namespace ReactDesigner
     using System.Globalization;
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio;
 
     /// <summary>
     /// This class implements Visual studio package that is registered within Visual Studio IDE.
@@ -25,16 +26,11 @@ namespace ReactDesigner
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#100", "#102", "10.0", IconResourceID = 400)]
-    // We register our AddNewItem Templates the Miscellaneous Files Project:
-    [ProvideEditorExtension(typeof(EditorFactory), ".js", 32,
-              ProjectGuid = "{A2FE74E1-B743-11d0-AE1A-00A0C90FFFC3}",
-              TemplateDir = "Templates",
-              NameResourceID = 106)]
-    //[ProvideEditorExtension(typeof(EditorFactory), ".jsx", 32)]
-    //[ProvideEditorExtension(typeof(EditorFactory), ".js", 32)]
-    //[ProvideEditorExtension(typeof(EditorFactory), ".html", 32)]
-    // We register that our editor supports LOGVIEWID_Designer logical view
-    [ProvideEditorLogicalView(typeof(EditorFactory), "{7651a703-06e5-11d1-8ebd-00a0c90f26ea}")]
+    [ProvideEditorFactory(typeof(EditorFactory), 106, CommonPhysicalViewAttributes = 0)]
+    [ProvideEditorLogicalView(typeof(EditorFactory), VSConstants.LOGVIEWID.Designer_string)]
+    [ProvideEditorExtension(typeof(EditorFactory), ".js", 50)]
+    [ProvideEditorExtension(typeof(EditorFactory), ".jsx", 50)]
+    [ProvideEditorExtension(typeof(EditorFactory), ".*", 1)]
     [Guid(GuidStrings.GuidClientPackage)]
     public class EditorPackage : Package, IDisposable
     {
