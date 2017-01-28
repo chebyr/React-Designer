@@ -375,9 +375,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="Templates\test.html">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Templates\test2.html">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="widevinecdmadapter.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
