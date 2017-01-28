@@ -6,6 +6,7 @@ namespace ReactDesigner
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio;
+    using EnvDTE;
 
     /// <summary>
     /// This class implements Visual studio package that is registered within Visual Studio IDE.
@@ -26,8 +27,8 @@ namespace ReactDesigner
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#100", "#102", "10.0", IconResourceID = 400)]
-    [ProvideEditorFactory(typeof(EditorFactory), 106, CommonPhysicalViewAttributes = 0)]
-    [ProvideEditorLogicalView(typeof(EditorFactory), VSConstants.LOGVIEWID.Designer_string)]
+    [ProvideEditorFactory(typeof(EditorFactory), 106)]
+    [ProvideEditorLogicalView(typeof(EditorFactory), VSConstants.LOGVIEWID.Designer_string, IsTrusted = true)]
     [ProvideEditorExtension(typeof(EditorFactory), ".js", 50)]
     [ProvideEditorExtension(typeof(EditorFactory), ".jsx", 50)]
     [ProvideEditorExtension(typeof(EditorFactory), ".*", 1)]
@@ -61,6 +62,8 @@ namespace ReactDesigner
             editorFactory = new EditorFactory();
             RegisterEditorFactory(editorFactory);
 
+            DTE = (DTE)GetService(typeof(DTE));
+
             var settings = new CefSharp.CefSettings { LogSeverity = CefSharp.LogSeverity.Verbose };
             if (!CefSharp.Cef.Initialize(settings))
             {
@@ -68,6 +71,9 @@ namespace ReactDesigner
             }
         }
 
+        /// <summary>
+        /// Returns package directory path.
+        /// </summary>
         public static string PackagePath {
             get {
                 var uri = new Uri(System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase);
@@ -75,6 +81,11 @@ namespace ReactDesigner
                 return path + "\\";
             }
         }
+
+        /// <summary>
+        /// Returns DTE object.
+        /// </summary>
+        public static DTE DTE { get; private set; }
 
         #region IDisposable Pattern
         /// <summary>

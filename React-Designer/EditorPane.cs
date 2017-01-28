@@ -1,3 +1,5 @@
+using ReactDesigner.ProjectExtensions;
+
 namespace ReactDesigner
 {
     using System;
@@ -55,9 +57,6 @@ namespace ReactDesigner
         private string fileName;
         /// Determines whether an object has changed since being saved to its current file.
         private bool isDirty;
-        // Flag true when we are loading the file. It is used to avoid to change the isDirty flag
-        // when the changes are related to the load operation.
-        private bool loading;
         // This flag is true when we are asking the QueryEditQuerySave service if we can edit the
         // file. It is used to avoid to have more than one request queued.
         private bool gettingCheckoutStatus;
@@ -86,7 +85,6 @@ namespace ReactDesigner
         private void PrivateInit()
         {
             noScribbleMode = false;
-            loading = false;
             gettingCheckoutStatus = false;
 
             // This call is required by the Windows.Forms Form Designer.
@@ -94,8 +92,6 @@ namespace ReactDesigner
             editorControl.TabIndex = 0;
             editorControl.Text = string.Empty;
             editorControl.Name = "EditorPane"; 
-            
-            editorControl.TextChanged += new EventHandler(OnTextChange);
         }
 
         /// <summary>
@@ -457,7 +453,6 @@ namespace ReactDesigner
                 throw new ArgumentNullException("pszFilename");
             }
 
-            loading = true;
             int hr = VSConstants.S_OK;
             try
             {
@@ -482,18 +477,19 @@ namespace ReactDesigner
 
                 var pathToTemplates = Path.Combine(EditorPackage.PackagePath, "Templates");
                 var pathToHtml = Path.Combine(pathToTemplates, "elementview.html");
-                //var pathToProject = HierarchyUtilities.GetProject()
-                //var pathToCss = "";
+                var project = ProjectUtilities.GetCurrentProject();
+                if (project == null)
+                {
+                    //MessageBox.Show("project is null");
+                }
+
+                var pathToCss = project?.GetProjectItemExtensionPaths(".css")?.FirstOrDefault();
 
                 var html = File.ReadAllText(pathToHtml);
-                var css = "";//File.ReadAllText(pathToCss);
+                var css = pathToCss != null ? File.ReadAllText(pathToCss) : "";
 
                 var content = File.ReadAllText(pszFilename);
-
-                //Get element name from next string:
-                //"class Photos extends React.Component"
-                var elementName = content.Substring(content.IndexOf("class ") + 6, content.IndexOf(" extends React.Component") -
-                    content.IndexOf("class ") + 6);
+                var elementName = ReactUtilities.GetClassNames(content).FirstOrDefault() ?? "";
                 
                 //Remove all import, export and PropTypes lines from content
                 content = string.Join(Environment.NewLine, content.ToLines().Where(
@@ -536,9 +532,7 @@ namespace ReactDesigner
                 NotifyDocChanged();
             }
             finally
-            {
-                loading = false;
-            }
+            {}
 
             return hr;
         }
@@ -848,37 +842,6 @@ namespace ReactDesigner
         #endregion
         
         #region Event handlers
-
-        /// <summary>
-        /// Handles the TextChanged event of contained RichTextBox object. 
-        /// Process changes occurred inside the editor.
-        /// </summary>
-        /// <param name="sender">The reference to contained RichTextBox object.</param>
-        /// <param name="e">The event arguments.</param>
-        private void OnTextChange(object sender, EventArgs e)
-        {
-            // During the load operation the text of the control will change, but
-            // this change must not be stored in the status of the document.
-            if (!loading)
-            {
-                // The only interesting case is when we are changing the document
-                // for the first time
-                if (!isDirty)
-                {
-                    // Check if the QueryEditQuerySave service allow us to change the file
-                    if (!CanEditFile())
-                    {
-                        // We can not change the file (e.g. a checkout operation failed),
-                        // so undo the change and exit.
-                        //editorControl.Undo();
-                        return;
-                    }
-
-                    // It is possible to change the file, so update the status.
-                    isDirty = true;
-                }
-            }
-        }
 
         #endregion
 
