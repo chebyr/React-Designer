@@ -1,8 +1,8 @@
-using ReactDesigner.ProjectExtensions;
-
 namespace ReactDesigner
 {
     using System;
+    using System.IO;
+    using System.Linq;
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Forms;
@@ -10,9 +10,12 @@ namespace ReactDesigner
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.OLE.Interop;
     using Microsoft.VisualStudio.Shell;
-    using System.IO;
+    using CefSharp;
+    using CefSharp.WinForms;
     using StringExtensions;
-    using System.Linq;
+    using ProjectExtensions;
+    using ChromiumWebBrowserExtensions;
+    //using React;
 
     using Constants = Microsoft.VisualStudio.OLE.Interop.Constants;
     using VSConstants = Microsoft.VisualStudio.VSConstants;
@@ -65,8 +68,8 @@ namespace ReactDesigner
         // This flag using to indicate SaveCompleted state (entering into the Normal mode).
         private bool noScribbleMode;
         // Object that handles the editor window.
-        private EditorControl editorControl;
-        
+        private Control Control { get; set; }
+
         #endregion
 
         #region Contructors
@@ -88,10 +91,10 @@ namespace ReactDesigner
             gettingCheckoutStatus = false;
 
             // This call is required by the Windows.Forms Form Designer.
-            editorControl = new EditorControl(null);//"about:blank"
-            editorControl.TabIndex = 0;
-            editorControl.Text = string.Empty;
-            editorControl.Name = "EditorPane"; 
+            Control = new ChromiumWebBrowser(null);//"about:blank"
+            Control.TabIndex = 0;
+            Control.Text = string.Empty;
+            Control.Name = "EditorPane"; 
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace ReactDesigner
         {
             get
             {
-                return editorControl;
+                return Control;
             }
         }
         #endregion Properties
@@ -132,10 +135,10 @@ namespace ReactDesigner
             {
                 if (disposing)
                 {
-                    if (editorControl != null)
+                    if (Control != null)
                     {
-                        editorControl.Dispose();
-                        editorControl = null;
+                        Control.Dispose();
+                        Control = null;
                     }
                     GC.SuppressFinalize(this);
                 }
@@ -460,20 +463,26 @@ namespace ReactDesigner
                 var isReload = pszFilename == null;
 
                 // Show the wait cursor while loading the file
-                var shell = (IVsUIShell)GetService(typeof(SVsUIShell));
+                var shell = (IVsUIShell) GetService(typeof(SVsUIShell));
                 // Note: we don't want to throw or exit if this call fails, so
                 // don't check the return code.
                 shell?.SetWaitCursor();
 
                 // Set the new file name
-                if ( !isReload )
+                if (!isReload)
                 {
                     // Unsubscribe from the notification of the changes in the previous file.
                     fileName = pszFilename;
                 }
 
+                var browser = Control as ChromiumWebBrowser;
+                if (browser == null)
+                {
+                    throw new Exception("Control is not ChromiumWebBrowser");
+                }
+
                 // Wait for the browser to initialize
-                editorControl.WaitForBrowserToInitialize();
+                browser.WaitForBrowserToInitialize();
 
                 var pathToTemplates = Path.Combine(EditorPackage.PackagePath, "Templates");
                 var pathToHtml = Path.Combine(pathToTemplates, "elementview.html");
@@ -490,10 +499,10 @@ namespace ReactDesigner
 
                 var content = File.ReadAllText(pszFilename);
                 var elementName = ReactUtilities.GetClassNames(content).FirstOrDefault() ?? "";
-                
+
                 //Remove all import, export and PropTypes lines from content
                 content = string.Join(Environment.NewLine, content.ToLines().Where(
-                    line => 
+                    line =>
                         !line.Trim(' ').StartsWith("import", StringComparison.OrdinalIgnoreCase) &&
                         !line.Trim(' ').StartsWith("export default connect", StringComparison.OrdinalIgnoreCase) &&
                         !line.Contains("PropTypes")));
@@ -514,7 +523,7 @@ namespace ReactDesigner
             document.getElementById('error')
         );
     }}";
-
+                //js = ReactEnvironment.Current.Babel.Transform(js);
                 //Create output html from format file.
                 var text = string.Format(html, css, js, pathToTemplates.Replace('\\', '/'));
 
@@ -523,13 +532,18 @@ namespace ReactDesigner
                 File.WriteAllText(path, text);
 
                 //Load temp html file.
-                editorControl.Load(path);
+                browser.Load(path);
                 //editorControl.LoadHtml(text, "localhost");
+                //editorControl.Navigate(path);
 
                 isDirty = false;
 
                 // Notify the load or reload
                 NotifyDocChanged();
+            }
+            catch (Exception exception)
+            {
+                Utilities.ShowExceptionMessage(exception.Message);
             }
             finally
             {}
@@ -601,7 +615,7 @@ namespace ReactDesigner
         /// <returns>S_OK if the function succeeds.</returns>
         int IVsPersistDocData.Close()
         {
-            if (editorControl != null)
+            if (Control != null)
             {
                 //editorControl.Dispose();
             }

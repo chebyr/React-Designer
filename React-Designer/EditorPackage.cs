@@ -7,6 +7,7 @@ namespace ReactDesigner
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio;
     using EnvDTE;
+    using CefSharp;
 
     /// <summary>
     /// This class implements Visual studio package that is registered within Visual Studio IDE.
@@ -57,19 +58,41 @@ namespace ReactDesigner
         /// </summary>
         protected override void Initialize()
         {
-            //Create Editor Factory
             base.Initialize();
-            editorFactory = new EditorFactory();
-            RegisterEditorFactory(editorFactory);
 
-            DTE = (DTE)GetService(typeof(DTE));
-
-            var settings = new CefSharp.CefSettings { LogSeverity = CefSharp.LogSeverity.Verbose };
-            if (!CefSharp.Cef.Initialize(settings))
+            try
             {
-                throw new Exception("Unable to Initialize Cef");
+                //Create Editor Factory
+                editorFactory = new EditorFactory();
+                RegisterEditorFactory(editorFactory);
+
+                DTE = (DTE) GetService(typeof(DTE));
+
+                CefInitialize();
+            }
+            catch (Exception exception)
+            {
+                Utilities.ShowExceptionMessage(exception.Message);
             }
         }
+        
+        /// <summary>
+        /// Initialize cef components.
+        /// Throw exception if any dependies are missing
+        /// </summary>
+        /// <exception cref="Exception">If dependies not found</exception>
+        public static void CefInitialize()
+        {
+            var settings = new CefSettings { LogSeverity = LogSeverity.Verbose };
+            settings.BrowserSubprocessPath = CefPath + "CefSharp.BrowserSubprocess.exe";
+            settings.LocalesDirPath = CefPath + "locales";
+            settings.ResourcesDirPath = CefPath;
+            settings.UserDataPath = CefPath;
+
+            //Throw exception if any dependies are missing
+            Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+        }
+
 
         /// <summary>
         /// Returns package directory path.
@@ -78,8 +101,15 @@ namespace ReactDesigner
             get {
                 var uri = new Uri(System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase);
                 string path = System.IO.Path.GetDirectoryName(Uri.UnescapeDataString(uri.AbsolutePath));
-                return path + "\\";
+                return path + @"\";
             }
+        }
+
+        /// <summary>
+        /// Returns Cef directory path.
+        /// </summary>
+        public static string CefPath {
+            get { return PackagePath + @"Cef_x86\"; }
         }
 
         /// <summary>
