@@ -105,7 +105,11 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <StartArguments>/rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -117,12 +121,19 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BrowserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrowserControl.Designer.cs">
+      <DependentUpon>BrowserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditorControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="EditorFactory.cs" />
     <Compile Include="EditorPane.cs">
     </Compile>
+    <Compile Include="Extensions\ProjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GuidList.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -133,6 +144,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="EditorPackage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utilities\ProjectUtilities.cs" />
+    <Compile Include="Utilities\ReactUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="cef_100_percent.pak">
@@ -376,6 +389,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BrowserControl.resx">
+      <DependentUpon>BrowserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
