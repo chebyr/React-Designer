@@ -121,12 +121,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BrowserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrowserControl.Designer.cs">
-      <DependentUpon>BrowserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="EditorControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -389,9 +383,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BrowserControl.resx">
-      <DependentUpon>BrowserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
