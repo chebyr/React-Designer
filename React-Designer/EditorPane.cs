@@ -15,7 +15,6 @@ namespace ReactDesigner
     using StringExtensions;
     using ProjectExtensions;
     using ChromiumWebBrowserExtensions;
-    //using React;
 
     using Constants = Microsoft.VisualStudio.OLE.Interop.Constants;
     using VSConstants = Microsoft.VisualStudio.VSConstants;
@@ -523,16 +522,18 @@ namespace ReactDesigner
             document.getElementById('error')
         );
     }}";
-                //js = ReactEnvironment.Current.Babel.Transform(js);
                 //Create output html from format file.
                 var text = string.Format(html, css, js, pathToTemplates.Replace('\\', '/'));
 
                 //Save html to temp file.
                 var path = Path.GetTempFileName() + ".html";
                 File.WriteAllText(path, text);
-
+                
                 //Load temp html file.
                 browser.Load(path);
+                //browser.WaitForPage();
+
+                //var source = browser.GetSourceAsync().Result;
                 //editorControl.LoadHtml(text, "localhost");
                 //editorControl.Navigate(path);
 
@@ -543,7 +544,7 @@ namespace ReactDesigner
             }
             catch (Exception exception)
             {
-                Utilities.ShowExceptionMessage(exception.Message);
+                Utilities.ShowExceptionMessage(exception.Message + Environment.NewLine + exception.StackTrace);
             }
             finally
             {}
