@@ -20,9 +20,13 @@ namespace ReactDesigner
             var names = new List<string>();
 
             var classIndex = text.IndexOf("class ");
-            var reactComponentIndex = text.IndexOf(" extends React.Component");
-            var elementName = text.Substring(classIndex + 6, reactComponentIndex - classIndex + 6);
-            names.Add(elementName);
+            var reactComponentIndex = text.IndexOf(" extends ");
+            if (classIndex >= 0 &&
+                reactComponentIndex >= 0)
+            {
+                var elementName = text.Substring(classIndex + 6, reactComponentIndex - classIndex + 6);
+                names.Add(elementName);
+            }
 
             return names;
         }
