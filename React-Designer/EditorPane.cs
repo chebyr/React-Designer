@@ -483,59 +483,29 @@ namespace ReactDesigner
                 // Wait for the browser to initialize
                 browser.WaitForBrowserToInitialize();
 
-                var pathToTemplates = Path.Combine(EditorPackage.PackagePath, "Templates");
-                var pathToHtml = Path.Combine(pathToTemplates, "elementview.html");
+                //Get first css file in current project
                 var project = ProjectUtilities.GetCurrentProject();
-                if (project == null)
-                {
-                    //MessageBox.Show("project is null");
-                }
-
                 var pathToCss = project?.GetProjectItemExtensionPaths(".css")?.FirstOrDefault();
-
-                var html = File.ReadAllText(pathToHtml);
                 var css = pathToCss != null ? File.ReadAllText(pathToCss) : "";
 
+                //Get content from current loaded file
                 var content = File.ReadAllText(pszFilename);
+
+                //Get first class name from content
                 var elementName = ReactUtilities.GetClassNames(content).FirstOrDefault() ?? "";
 
-                //Remove all import, export and PropTypes lines from content
-                content = string.Join(Environment.NewLine, content.ToLines().Where(
-                    line =>
-                        !line.Trim(' ').StartsWith("import", StringComparison.OrdinalIgnoreCase) &&
-                        !line.Trim(' ').StartsWith("export default connect", StringComparison.OrdinalIgnoreCase) &&
-                        !line.Contains("PropTypes")));
+                //Create render jsx code for content and elementName
+                var jsx = ReactUtilities.CreateRenderedJsx(content, elementName);
 
-                content = content.Replace("export default ", "");
-
-                //Create input jsx file
-                var js = $@"try {{
-        {content}
-
-        ReactDOM.render(
-        <{elementName} />
-        , document.getElementById('root'));
-    }}
-    catch(e) {{
-        ReactDOM.render(
-            <h1>{{""Error "" + e.name + "": "" + e.message}}</h1>,
-            document.getElementById('error')
-        );
-    }}";
                 //Create output html from format file.
-                var text = string.Format(html, css, js, pathToTemplates.Replace('\\', '/'));
+                var html = ReactUtilities.CreateJsxHtml(css, jsx, EditorPackage.JsPath);
 
                 //Save html to temp file.
                 var path = Path.GetTempFileName() + ".html";
-                File.WriteAllText(path, text);
+                File.WriteAllText(path, html);
                 
                 //Load temp html file.
                 browser.Load(path);
-                //browser.WaitForPage();
-
-                //var source = browser.GetSourceAsync().Result;
-                //editorControl.LoadHtml(text, "localhost");
-                //editorControl.Navigate(path);
 
                 isDirty = false;
 

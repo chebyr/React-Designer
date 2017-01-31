@@ -8,6 +8,7 @@ namespace ReactDesigner
     using Microsoft.VisualStudio;
     using EnvDTE;
     using CefSharp;
+    using System.IO;
 
     /// <summary>
     /// This class implements Visual studio package that is registered within Visual Studio IDE.
@@ -84,8 +85,8 @@ namespace ReactDesigner
         public static void CefInitialize()
         {
             var settings = new CefSettings { LogSeverity = LogSeverity.Verbose };
-            settings.BrowserSubprocessPath = CefPath + "CefSharp.BrowserSubprocess.exe";
-            settings.LocalesDirPath = CefPath + "locales";
+            settings.BrowserSubprocessPath = Path.Combine(CefPath, "CefSharp.BrowserSubprocess.exe");
+            settings.LocalesDirPath = Path.Combine(CefPath, "locales");
             settings.ResourcesDirPath = CefPath;
             settings.UserDataPath = CefPath;
 
@@ -100,8 +101,7 @@ namespace ReactDesigner
         public static string PackagePath {
             get {
                 var uri = new Uri(System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase);
-                string path = System.IO.Path.GetDirectoryName(Uri.UnescapeDataString(uri.AbsolutePath));
-                return path + @"\";
+                return Path.GetDirectoryName(Uri.UnescapeDataString(uri.AbsolutePath));
             }
         }
 
@@ -109,7 +109,12 @@ namespace ReactDesigner
         /// Returns Cef directory path.
         /// </summary>
         public static string CefPath {
-            get { return PackagePath + @"Cef_x86\"; }
+            get { return Path.Combine(PackagePath, "Cef_x86"); }
+        }
+
+        public static string JsPath
+        {
+            get { return Path.Combine(PackagePath, "Templates"); }
         }
 
         /// <summary>

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReactDesigner
+﻿namespace ReactDesigner
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using StringExtensions;
+
     public static class ReactUtilities
     {
         /// <summary>
@@ -29,6 +28,83 @@ namespace ReactDesigner
             }
 
             return names;
+        }
+
+        /// <summary>
+        /// Removes all import, export and PropTypes lines from content
+        /// </summary>
+        /// <param name="jsx">Raw jsx</param>
+        /// <returns>Jsx without server-side components</returns>
+        public static string ClearJsx(string jsx)
+        {
+            jsx = string.Join(Environment.NewLine, jsx.ToLines().Where(
+                    line =>
+                        !line.Trim(' ').StartsWith("import", StringComparison.OrdinalIgnoreCase) &&
+                        !line.Trim(' ').StartsWith("export default connect", StringComparison.OrdinalIgnoreCase) &&
+                        !line.Contains("PropTypes")));
+
+            jsx = jsx.Replace("export default ", "");
+
+            return jsx;
+        }
+
+        /// <summary>
+        /// Returns jsx for output page.
+        /// Removes all import/export directivies and PropTypes from input jsx.
+        /// </summary>
+        /// <param name="jsx">Raw jsx from file(must be with import/export directivies)</param>
+        /// <param name="elementName">Element name for ReactDOM.render</param>
+        /// <returns>jsx text with try/catch and ReactDOM.render</returns>
+        public static string CreateRenderedJsx(string jsx, string elementName)
+        {
+            return $@"try {{
+        {ClearJsx(jsx)}
+
+        ReactDOM.render(
+        <{elementName} />
+        , document.getElementById('root'));
+    }}
+    catch(e) {{
+        ReactDOM.render(
+            <h1>{{""Error "" + e.name + "": "" + e.message}}</h1>,
+            document.getElementById('error')
+        );
+    }}";
+        }
+
+        /// <summary>
+        /// Returns html with css and js for output page.
+        /// </summary>
+        /// <param name="css">Raw css text</param>
+        /// <param name="jsx">Rendered jsx text</param>
+        /// <param name="pathToJs">Path to directory with js</param>
+        /// <returns>html for use with css and js</returns>
+        public static string CreateJsxHtml(string css, string jsx, string pathToJs)
+        {
+            pathToJs = pathToJs.Replace('\\', '/');
+            return $@"<html>
+<head>
+    <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">
+    <title>Element View</title>
+    <script src=""file:///{pathToJs}/react.js""></script>
+    <script src=""file:///{pathToJs}/react-dom.js""></script>
+    <script src=""file:///{pathToJs}/babel.min.js""></script>
+    <style type=""text/css"">
+        {css}
+    </style>
+</head>
+<body>
+<div id=""root"">
+</div>
+<div id=""error"" style=""color: red; "" >
+</div>
+<script type=""text/babel"" >
+
+    {jsx}
+
+</script>
+</body>
+</html>";
         }
     }
 }
