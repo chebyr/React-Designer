@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using JavaScriptEngineSwitcher.Core;
 using JavaScriptEngineSwitcher.V8;
 using React;
@@ -19,10 +20,13 @@ namespace JsHtmlConverter
                 using (var environment = new ReactEnvironment(factory, configuration, cache, filesystem, hash))
                 {
                     var babeled = environment.Babel.Transform(js);
-                    Debug.WriteLine($@"Babel output:
-{babeled}");
+                    Debug.WriteLine($@"Babel output:{Environment.NewLine}{babeled}");
 
-                    return environment.Execute<string>(babeled);
+                    var html = environment.Execute<string>(babeled);
+                    Debug.WriteLine($@"Raw html:{Environment.NewLine}{html}");
+                    
+                    //RemoveAllAttributes uses only for formatting.
+                    return XmlUtilities.RemoveAllAttributes(html);
                 }
             }
         }
@@ -31,7 +35,7 @@ namespace JsHtmlConverter
         {
             return ConvertToHtml($@"{jsx}
 
-ReactDOMServer.renderToString(
+ReactDOMServer.renderToStaticMarkup(
   {name}
 );");
         }
