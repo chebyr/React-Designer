@@ -85,7 +85,7 @@ namespace ReactDesigner
         public static void CefInitialize()
         {
             var settings = new CefSettings { LogSeverity = LogSeverity.Verbose };
-            settings.BrowserSubprocessPath = Path.Combine(CefPath, "CefSharp.BrowserSubprocess.exe");
+            settings.BrowserSubprocessPath = Path.Combine(PackagePath, "CefSharp.BrowserSubprocess.exe");
             settings.LocalesDirPath = Path.Combine(CefPath, "locales");
             settings.ResourcesDirPath = CefPath;
             settings.UserDataPath = CefPath;

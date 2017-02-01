@@ -136,15 +136,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cef_x86\CefSharp.Core.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Cef_x86\CefSharp.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Cef_x86\CefSharp.WinForms.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Cef_x86\cef_100_percent.pak">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -157,10 +148,10 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="Cef_x86\devtools_resources.pak">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\icudtl.dat">
+    <Content Include="icudtl.dat">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\natives_blob.bin">
+    <Content Include="natives_blob.bin">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Cef_x86\locales\am.pak">
@@ -329,38 +320,28 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cef_x86\CefSharp.BrowserSubprocess.Core.dll">
+    <Content Include="CefSharp.BrowserSubprocess.Core.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\CefSharp.BrowserSubprocess.exe">
+    <Content Include="CefSharp.BrowserSubprocess.exe">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\CefSharp.Core.xml">
-      <SubType>Designer</SubType>
+    <Content Include="d3dcompiler_43.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\CefSharp.WinForms.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Cef_x86\CefSharp.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Cef_x86\d3dcompiler_43.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Cef_x86\d3dcompiler_47.dll">
+    <Content Include="d3dcompiler_47.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Cef_x86\cef.pak">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\libcef.dll">
+    <Content Include="libcef.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\libEGL.dll">
+    <Content Include="libEGL.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\libGLESv2.dll">
+    <Content Include="libGLESv2.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Templates\babel.min.js">
@@ -372,7 +353,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="Templates\react.js">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Cef_x86\widevinecdmadapter.dll">
+    <Content Include="widevinecdmadapter.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
@@ -390,7 +371,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cef_x86\snapshot_blob.bin">
+    <Content Include="snapshot_blob.bin">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="source.extension.vsixmanifest">
