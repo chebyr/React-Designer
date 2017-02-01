@@ -49,6 +49,30 @@
         }
 
         /// <summary>
+        /// Returns ReactDOM.render call
+        /// </summary>
+        /// <param name="element">First argument for ReactDOM.render()</param>
+        /// <param name="id">Element id for render to</param>
+        /// <returns>return ReactDOM.render(element, document.getElementById('id'));</returns>
+        public static string GetReactDOMRender(string element, string id)
+        {
+            return $@"ReactDOM.render(
+  {element},
+  document.getElementById('{id}')
+);";
+        }
+
+        /// <summary>
+        /// Returns ReactDOM.render call for error rendering
+        /// </summary>
+        /// <param name="message">Error message</param>
+        /// <returns>return ReactDOM.render(&lt;h1&gt;{message}&lt;/h1&gt;, document.getElementById('error'));</returns>
+        public static string GetReactDOMRenderError(string message)
+        {
+            return GetReactDOMRender($"<h1>{message}</h1>", "error");
+        }
+
+        /// <summary>
         /// Returns jsx for output page.
         /// Removes all import/export directivies and PropTypes from input jsx.
         /// </summary>
@@ -57,19 +81,19 @@
         /// <returns>jsx text with try/catch and ReactDOM.render</returns>
         public static string CreateRenderedJsx(string jsx, string elementName)
         {
-            return $@"try {{
-        {ClearJsx(jsx)}
+            if (string.IsNullOrWhiteSpace(elementName))
+            {
+                return GetReactDOMRenderError("This file does not contains classes for rendering");
+            }
 
-        ReactDOM.render(
-        <{elementName} />
-        , document.getElementById('root'));
-    }}
-    catch(e) {{
-        ReactDOM.render(
-            <h1>{{""Error "" + e.name + "": "" + e.message}}</h1>,
-            document.getElementById('error')
-        );
-    }}";
+            return $@"try {{
+  {ClearJsx(jsx)}
+
+  {GetReactDOMRender($"<{elementName} />", "root")}
+}}
+catch(e) {{
+  {GetReactDOMRenderError(@"{""Error "" + e.name + "": "" + e.message}")}
+}}";
         }
 
         /// <summary>
