@@ -81,6 +81,7 @@ namespace ReactDesigner
         {
             PrivateInit();
         }
+
         /// <summary>
         /// Initialize GUI context objects.
         /// </summary>
@@ -89,14 +90,10 @@ namespace ReactDesigner
             noScribbleMode = false;
             gettingCheckoutStatus = false;
 
-            // This call is required by the Windows.Forms Form Designer.
-            Control = new ChromiumWebBrowser(null);//"about:blank"
+            Control = new ChromiumWebBrowser("http://google.com/");
             Control.TabIndex = 0;
             Control.Text = string.Empty;
             Control.Name = "EditorPane";
-
-            //Delay after disposing for more stability
-            Control.Disposed += async (e, args) => { await System.Threading.Tasks.Task.Delay(1000); };
         }
 
         /// <summary>
@@ -137,11 +134,8 @@ namespace ReactDesigner
             {
                 if (disposing)
                 {
-                    if (Control != null)
-                    {
-                        Control.Dispose();
-                        Control = null;
-                    }
+                    Control?.Dispose();
+                    Control = null;
                     GC.SuppressFinalize(this);
                 }
             }
@@ -482,10 +476,10 @@ namespace ReactDesigner
                 {
                     throw new Exception("Control is not ChromiumWebBrowser");
                 }
-
+                
                 // Wait for the browser to initialize
                 browser.WaitForBrowserToInitialize();
-
+                
                 //Get first css file in current project
                 var project = ProjectUtilities.GetCurrentProject();
                 var pathToCss = project?.GetProjectItemExtensionPaths(".css")?.FirstOrDefault();
@@ -589,10 +583,8 @@ namespace ReactDesigner
         /// <returns>S_OK if the function succeeds.</returns>
         int IVsPersistDocData.Close()
         {
-            if (Control != null)
-            {
-                //editorControl.Dispose();
-            }
+            //Control?.Dispose();
+            Control = null;
             return VSConstants.S_OK;
         }
 

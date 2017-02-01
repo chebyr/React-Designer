@@ -89,6 +89,9 @@ namespace ReactDesigner
             settings.LocalesDirPath = Path.Combine(CefPath, "locales");
             settings.ResourcesDirPath = CefPath;
             settings.UserDataPath = CefPath;
+            //settings.MultiThreadedMessageLoop = false;
+
+            CefSharpSettings.ShutdownOnExit = false;
 
             //Throw exception if any dependies are missing
             Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
@@ -147,6 +150,7 @@ namespace ReactDesigner
                         editorFactory.Dispose();
                         editorFactory = null;
                     }
+                    Cef.Shutdown();
                     GC.SuppressFinalize(this);
                 }
             }
