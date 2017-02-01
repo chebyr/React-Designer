@@ -93,7 +93,10 @@ namespace ReactDesigner
             Control = new ChromiumWebBrowser(null);//"about:blank"
             Control.TabIndex = 0;
             Control.Text = string.Empty;
-            Control.Name = "EditorPane"; 
+            Control.Name = "EditorPane";
+
+            //Delay after disposing for more stability
+            Control.Disposed += async (e, args) => { await System.Threading.Tasks.Task.Delay(1000); };
         }
 
         /// <summary>
