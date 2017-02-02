@@ -106,16 +106,17 @@ catch(e) {{
         public static string CreateJsxHtml(string css, string jsx, string pathToJs)
         {
             pathToJs = pathToJs.Replace('\\', '/');
-            return $@"<html>
+            return $@"<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">
-    <title>Element View</title>
-    <script src=""file:///{pathToJs}/react.js""></script>
-    <script src=""file:///{pathToJs}/react-dom.js""></script>
-    <script src=""file:///{pathToJs}/babel.min.js""></script>
-    <style type=""text/css"">
-        {css}
-    </style>
+  <meta charset=""utf-8"">
+  <title>Element View</title>
+  <script src=""file:///{pathToJs}/react.js""></script>
+  <script src=""file:///{pathToJs}/react-dom.js""></script>
+  <script src=""file:///{pathToJs}/babel.min.js""></script>
+  <style type=""text/css"">
+{css}
+  </style>
 </head>
 <body>
 <div id=""root"">
@@ -123,9 +124,7 @@ catch(e) {{
 <div id=""error"" style=""color: red; "" >
 </div>
 <script type=""text/babel"" >
-
-    {jsx}
-
+{jsx}
 </script>
 </body>
 </html>";
