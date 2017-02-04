@@ -2,6 +2,7 @@
 A WYSIWYG Visual Designer  for React.js components
 
 Compilation:
+
 1. Open the file React-Designer/ReactDesigner.sln
 2. Build it.
 3. Needed file is there:
