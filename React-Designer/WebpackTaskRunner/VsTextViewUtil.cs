@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     /// <summary>
     /// Utility class that helps find files open in a text editor.

@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     [TaskRunnerExport(Constants.FILENAME)]
     class TaskRunnerProvider : ITaskRunner

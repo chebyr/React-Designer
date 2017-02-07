@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     public class TaskNode : TaskRunnerNode
     {

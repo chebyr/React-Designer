@@ -6,7 +6,7 @@ using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     internal static class TaskRunnerFileBindingsHelper
     {

@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 
-namespace ReactDesigner.TaskRunner.Helpers
+namespace WebPackTaskRunner.Helpers
 {
     public abstract class TaskRunnerConfigBase : ITaskRunnerConfig
     {

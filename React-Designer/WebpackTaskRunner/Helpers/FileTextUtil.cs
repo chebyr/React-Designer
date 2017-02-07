@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ReactDesigner.TaskRunner.Helpers
+namespace WebPackTaskRunner.Helpers
 {
     internal class FileTextUtil : ITextUtil
     {

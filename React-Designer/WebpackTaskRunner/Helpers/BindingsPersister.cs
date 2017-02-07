@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ReactDesigner.TaskRunner.Helpers
+namespace WebPackTaskRunner.Helpers
 {
     public static class BindingsPersister
     {

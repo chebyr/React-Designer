@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     public class TaskRunnerOption : ITaskRunnerOption
     {

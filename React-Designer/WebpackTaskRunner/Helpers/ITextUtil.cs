@@ -1,4 +1,4 @@
-﻿namespace ReactDesigner.TaskRunner.Helpers
+﻿namespace WebPackTaskRunner.Helpers
 {
     public interface ITextUtil
     {

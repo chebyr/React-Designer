@@ -111,14 +111,12 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
@@ -141,27 +139,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Compile>
     <Compile Include="Utilities\ProjectUtilities.cs" />
     <Compile Include="Utilities\ReactUtilities.cs" />
-    <Compile Include="Utilities\TaskRunner\Constants.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\BindingsPersister.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\FileTextUtil.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\ITextUtil.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\LineRange.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\Range.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\TaskRunnerConfig.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\TaskRunnerConfigBase.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\TaskRunnerOption.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\TextUtilExtensions.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\TextViewUtil.cs" />
-    <Compile Include="Utilities\TaskRunner\Helpers\VsTextViewTextUtil.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskNode.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskParser.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskRunner.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskRunnerConfig.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskRunnerFileBindingsHelper.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskRunnerOption.cs" />
-    <Compile Include="Utilities\TaskRunner\TaskRunnerProvider.cs" />
-    <Compile Include="Utilities\TaskRunner\VsCommandTable.cs" />
-    <Compile Include="Utilities\TaskRunner\VsTextViewUtil.cs" />
     <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +157,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="icudtl.dat">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="lib\Microsoft.VisualStudio.TaskRunnerExplorer.14.0.dll" />
     <Content Include="natives_blob.bin">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

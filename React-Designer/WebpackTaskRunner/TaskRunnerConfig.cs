@@ -5,7 +5,7 @@ using System.Windows.Media;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 
-namespace ReactDesigner.TaskRunner
+namespace WebPackTaskRunner
 {
     class TaskRunnerConfig : ITaskRunnerConfig
     {

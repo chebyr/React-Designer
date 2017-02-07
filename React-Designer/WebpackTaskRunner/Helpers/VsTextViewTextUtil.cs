@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace ReactDesigner.TaskRunner.Helpers
+namespace WebPackTaskRunner.Helpers
 {
     internal class VsTextViewTextUtil : ITextUtil
     {

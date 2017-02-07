@@ -1,4 +1,4 @@
-﻿namespace ReactDesigner.TaskRunner
+﻿namespace WebPackTaskRunner
 {
     using System;
 
