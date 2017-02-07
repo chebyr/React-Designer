@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactDesigner", "ReactDesigner.csproj", "{A96C6F84-A591-4AA4-92AD-F1FA4955C835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebpackTaskRunner", "WebpackTaskRunner\WebpackTaskRunner.csproj", "{469E69A9-4A08-4B53-8709-854848C283D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebpackTaskRunner", "..\WebpackTaskRunner\WebpackTaskRunner.csproj", "{469E69A9-4A08-4B53-8709-854848C283D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
